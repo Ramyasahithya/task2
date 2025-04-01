@@ -1,18 +1,16 @@
 package com.wellsfargo.counselor.entity;
 
-
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-public class Advisor {
-
+public class Client {
     @Id
     @GeneratedValue()
-    private long advisorId;
+    private long clientId;
 
+    @ManyToOne
+    @JoinColumn(name="advisorId",nullable = false)
+    private Advisor advisor;
     @Column(nullable = false)
     private String firstName;
 
@@ -28,12 +26,12 @@ public class Advisor {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Client> clients = new ArrayList<>();
+    protected Client() {
 
-    public Advisor() { }
+    }
 
-    public Advisor(String firstName, String lastName, String address, String phone, String email) {
+    public Client(Advisor advisorId,String firstName, String lastName, String address, String phone, String email) {
+        this.advisor=advisorId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -41,8 +39,14 @@ public class Advisor {
         this.email = email;
     }
 
-    public Long getAdvisorId() {
-        return advisorId;
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public Advisor getAdvisorId(){return  advisor;}
+
+    public void setAdvisor(Advisor advisor){
+        this.advisor=advisor;
     }
 
     public String getFirstName() {
@@ -83,15 +87,5 @@ public class Advisor {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void addClient(Client client) {
-        clients.add(client);
-        client.setAdvisor(this);
-    }
-
-    public void removeClient(Client client) {
-        clients.remove(client);
-        client.setAdvisor(null);
     }
 }
