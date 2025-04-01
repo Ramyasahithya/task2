@@ -9,7 +9,6 @@ public class Client {
     private long clientId;
 
     @ManyToOne
-    @JoinColumn(name="advisorId",nullable = false)
     private Advisor advisor;
     @Column(nullable = false)
     private String firstName;

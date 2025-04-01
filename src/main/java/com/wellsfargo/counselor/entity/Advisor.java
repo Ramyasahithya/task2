@@ -28,10 +28,8 @@ public class Advisor {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Client> clients = new ArrayList<>();
 
-    public Advisor() { }
+    protected Advisor() { }
 
     public Advisor(String firstName, String lastName, String address, String phone, String email) {
         this.firstName = firstName;
@@ -83,15 +81,5 @@ public class Advisor {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void addClient(Client client) {
-        clients.add(client);
-        client.setAdvisor(this);
-    }
-
-    public void removeClient(Client client) {
-        clients.remove(client);
-        client.setAdvisor(null);
     }
 }
